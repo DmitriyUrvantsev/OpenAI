@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:chatgpt_course/constants/constants.dart';
-import 'package:chatgpt_course/services/assets_manager.dart';
+
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+import '../services/assets_manager.dart';
 import 'text_widget.dart';
 
 class ChatWidget extends StatelessWidget {

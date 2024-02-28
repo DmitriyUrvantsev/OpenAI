@@ -1,15 +1,17 @@
 import 'dart:developer';
 
-import 'package:chatgpt_course/constants/constants.dart';
-import 'package:chatgpt_course/providers/chats_provider.dart';
-import 'package:chatgpt_course/services/services.dart';
-import 'package:chatgpt_course/widgets/chat_widget.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/constants.dart';
+import '../providers/chats_provider.dart';
 import '../providers/models_provider.dart';
 import '../services/assets_manager.dart';
+import '../services/services.dart';
+import '../widgets/chat_widget.dart';
 import '../widgets/text_widget.dart';
 
 class ChatScreen extends StatefulWidget {
