@@ -1,28 +1,21 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../constants/constants.dart';
-import '../providers/chats_provider.dart';
-
 import '../services/assets_manager.dart';
 import 'text_widget.dart';
 
 class ChatWidget extends StatelessWidget {
   const ChatWidget(
       {super.key,
-      required this.msg,
+      required this.message,
       required this.chatIndex,
       this.shouldAnimate = false});
 
-  final String msg;
+  final String message;
   final int chatIndex;
   final bool shouldAnimate;
   @override
   Widget build(BuildContext context) {
-      //final modelsProvider = Provider.of<ModelsProvider>(context);
-    final chatProvider = Provider.of<ChatProvider>(context);
     return Column(
       children: [
         Material(
@@ -44,9 +37,8 @@ class ChatWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: chatIndex == 0
-                      ?
-                       TextWidget(
-                          label: msg,
+                      ? TextWidget(
+                          label: message,
                         )
                       : shouldAnimate
                           ? AnimatedTextKit(
@@ -55,40 +47,42 @@ class ChatWidget extends StatelessWidget {
                               displayFullTextOnTap: true,
                               totalRepeatCount: 1,
                               animatedTexts: [
-                                TyperAnimatedText(
-                                  msg.trim(), textStyle:  const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16), 
-                                ),
-                              ])
+                                  TyperAnimatedText(
+                                    message.trim(),
+                                    textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                ])
                           : Text(
-                              msg.trim(),
+                              message.trim(),
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16),
                             ),
                 ),
-                chatIndex == 0
-                    ? const SizedBox.shrink()
-                    : const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.thumb_up_alt_outlined,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.thumb_down_alt_outlined,
-                            color: Colors.white,
-                          )
-                        ],
-                      ),
+                // ===========типа лайк дизлайк
+                // chatIndex == 0
+                //     ? const SizedBox.shrink()
+                //     : const Row(
+                //         mainAxisAlignment: MainAxisAlignment.end,
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: [
+                //           Icon(
+                //             Icons.thumb_up_alt_outlined,
+                //             color: Colors.white,
+                //           ),
+                //           SizedBox(
+                //             width: 5,
+                //           ),
+                //           Icon(
+                //             Icons.thumb_down_alt_outlined,
+                //             color: Colors.white,
+                //           )
+                //         ],
+                //       ),
               ],
             ),
           ),

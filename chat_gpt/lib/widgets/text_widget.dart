@@ -17,7 +17,7 @@ class TextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      // textAlign: TextAlign.justify,
+      textAlign: TextAlign.justify,
       style: TextStyle(
         color: color ?? Colors.white,
         fontSize: fontSize,

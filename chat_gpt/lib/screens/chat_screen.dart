@@ -76,7 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemCount: chatProvider.chatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
-                      msg: chatProvider
+                      message: chatProvider
                           .chatList[index].message, // chatList[index].msg,
                       chatIndex: chatProvider.chatList[index]
                           .chatIndex, //chatList[index].chatIndex,

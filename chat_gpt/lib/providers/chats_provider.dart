@@ -12,6 +12,12 @@ class ChatProvider with ChangeNotifier {
 
 
 
+
+
+
+
+
+
   void addUsersMessage({required String msg}) {
     _chatList.add(ChatModel(message: msg, chatIndex: 0));
     notifyListeners();
@@ -25,6 +31,13 @@ class ChatProvider with ChangeNotifier {
     ));
     notifyListeners();
   }
+
+
+
+
+
+
+
 
 //=======автоскрол ListView при достижении низа экрана===================
   void scrollListToEND() {
