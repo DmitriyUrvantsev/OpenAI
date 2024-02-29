@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../constants/constants.dart';
 import '../providers/chats_provider.dart';
-import '../providers/models_provider.dart';
+
 import '../services/assets_manager.dart';
 import 'text_widget.dart';
 

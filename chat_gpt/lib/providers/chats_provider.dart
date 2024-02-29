@@ -16,30 +16,30 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<void> sendMessageAndGetAnswers(
-      {required String msg, required String chosenModelId}) async {
+      {required String message, required String chosenModelId}) async {
     if (chosenModelId.toLowerCase().startsWith("gpt")) {
       chatList.addAll(await ApiService.sendMessageGPT(
-        message: msg,
+        message: message,
         modelId: chosenModelId,
       ));
     } else {
       chatList.addAll(await ApiService.sendMessage(
-        message: msg,
+        message: message,
         modelId: chosenModelId,
       ));
     }
-  
+
     notifyListeners();
   }
 
   void scrollListToEND() {
-   if (listScrollController == null) return;
-   if(listScrollController != null){
-    listScrollController!.animateTo(
-        listScrollController!.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500), //!===
-        curve: Curves.easeOut);
-    notifyListeners();    
-  }
+    if (listScrollController == null) return;
+    if (listScrollController != null) {
+      listScrollController!
+          .animateTo(listScrollController!.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 500), //!===
+              curve: Curves.easeOut);
+      notifyListeners();
+    }
   }
 }

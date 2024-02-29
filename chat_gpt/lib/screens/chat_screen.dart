@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import '../constants/api_consts.dart';
 import '../constants/constants.dart';
 import '../providers/chats_provider.dart';
-import '../providers/models_provider.dart';
-import '../services/assets_manager.dart';
-import '../services/services.dart';
+
 import '../widgets/chat_widget.dart';
 import '../widgets/text_widget.dart';
 
@@ -55,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // List<ChatModel> chatList = [];
   @override
   Widget build(BuildContext context) {
-    final modelsProvider = Provider.of<ModelsProvider>(context);
+    //final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
     Timer(Duration(milliseconds: 200), () => chatProvider.scrollListToEND());
     return Scaffold(
@@ -110,7 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         controller: textEditingController,
                         onSubmitted: (value) async {
                           await sendMessageFCT(
-                              modelsProvider: modelsProvider,
+                              // modelsProvider: modelsProvider,
                               chatProvider: chatProvider);
                         },
                         decoration: const InputDecoration.collapsed(
@@ -121,7 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     IconButton(
                         onPressed: () async {
                           await sendMessageFCT(
-                              modelsProvider: modelsProvider,
+                              // modelsProvider: modelsProvider,
                               chatProvider: chatProvider);
                         },
                         icon: const Icon(
@@ -141,7 +140,8 @@ class _ChatScreenState extends State<ChatScreen> {
 //!============================================================================
 
   Future<void> sendMessageFCT(
-      {required ModelsProvider modelsProvider,
+      {
+      //required ModelsProvider modelsProvider,
       required ChatProvider chatProvider}) async {
     if (_isTyping) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -166,20 +166,16 @@ class _ChatScreenState extends State<ChatScreen> {
       return;
     }
     try {
-      String msg = textEditingController.text;
+      String message = textEditingController.text;
       setState(() {
         _isTyping = true;
-        // chatList.add(ChatModel(msg: textEditingController.text, chatIndex: 0));
-        chatProvider.addUserMessage(msg: msg);
+        chatProvider.addUserMessage(msg: message);
         textEditingController.clear();
         focusNode.unfocus();
       });
       await chatProvider.sendMessageAndGetAnswers(
-          msg: msg, chosenModelId: modelsProvider.getCurrentModel);
-      // chatList.addAll(await ApiService.sendMessage(
-      //   message: textEditingController.text,
-      //   modelId: modelsProvider.getCurrentModel,
-      // ));
+          message: message, chosenModelId: currentModel);
+
       setState(() {});
     } catch (error) {
       log("error $error");
