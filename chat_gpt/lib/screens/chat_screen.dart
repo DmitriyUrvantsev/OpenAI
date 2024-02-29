@@ -73,15 +73,14 @@ class _ChatScreenState extends State<ChatScreen> {
             Flexible(
               child: ListView.builder(
                   controller: _listScrollController,
-                  itemCount: chatProvider.getChatList.length, //chatList.length,
+                  itemCount: chatProvider.chatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
                       msg: chatProvider
-                          .getChatList[index].message, // chatList[index].msg,
-                      chatIndex: chatProvider.getChatList[index]
+                          .chatList[index].message, // chatList[index].msg,
+                      chatIndex: chatProvider.chatList[index]
                           .chatIndex, //chatList[index].chatIndex,
-                      shouldAnimate:
-                          chatProvider.getChatList.length - 1 == index,
+                      shouldAnimate: chatProvider.chatList.length - 1 == index,
                     );
                   }),
             ),
@@ -108,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: const TextStyle(color: Colors.white),
                         controller: textEditingController,
                         onSubmitted: (value) async {
-                          await sendMessageFCT(chatProvider);
+                          await sendMessage(chatProvider);
                         },
                         decoration: const InputDecoration.collapsed(
                             hintText: "Чем я могу помочь тебе?",
@@ -117,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     IconButton(
                         onPressed: () async {
-                          await sendMessageFCT(chatProvider);
+                          await sendMessage(chatProvider);
                         },
                         icon: const Icon(
                           Icons.send,
@@ -135,7 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //!============================================================================
 
-  Future<void> sendMessageFCT(ChatProvider chatProvider) async {
+  Future<void> sendMessage(ChatProvider chatProvider) async {
     if (textEditingController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

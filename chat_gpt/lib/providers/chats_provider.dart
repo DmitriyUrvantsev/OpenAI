@@ -6,9 +6,7 @@ import '../services/api_service.dart';
 class ChatProvider with ChangeNotifier {
   ScrollController? listScrollController;
   final List<ChatModel> _chatList = [];
-  List<ChatModel> get getChatList => _chatList;
-    
-  
+  List<ChatModel> get chatList => _chatList;
 
   void addUsersMessage({required String msg}) {
     _chatList.add(ChatModel(message: msg, chatIndex: 0));
@@ -23,7 +21,6 @@ class ChatProvider with ChangeNotifier {
     ));
     notifyListeners();
   }
-
 
 //=======автоскрол ListView при достижении низа экрана===================
   void scrollListToEND() {
