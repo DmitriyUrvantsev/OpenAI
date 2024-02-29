@@ -4,6 +4,7 @@ import '../constants/constants.dart';
 import '../services/assets_manager.dart';
 import 'text_widget.dart';
 
+//Виджет Item в чате ListView===================================================
 class ChatWidget extends StatelessWidget {
   const ChatWidget(
       {super.key,
@@ -19,6 +20,7 @@ class ChatWidget extends StatelessWidget {
     return Column(
       children: [
         Material(
+          //в зависимомсти кто пишет Юзер или Бот применение разных свойств(иконки, цвет)
           color: chatIndex == 0 ? scaffoldBackgroundColor : cardColor,
           child: Padding(
             padding: const EdgeInsets.all(8.0),

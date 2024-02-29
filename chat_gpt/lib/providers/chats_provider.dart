@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/api_consts.dart';
-import '../models/chat_model.dart';
+import '../data/chat_model.dart';
 import '../services/api_service.dart';
 import '../widgets/text_widget.dart';
 
@@ -75,13 +75,11 @@ class ChatProvider with ChangeNotifier {
 
 //=======автоскрол ListView при достижении низа экрана===================
   void scrollListToEND() {
-    if (listScrollController == null) return;
-    if (listScrollController != null) {
-      listScrollController!
-          .animateTo(listScrollController!.position.maxScrollExtent,
+      listScrollController
+          .animateTo(listScrollController.position.maxScrollExtent,
               duration: const Duration(milliseconds: 500), //!===
               curve: Curves.easeOut);
       notifyListeners();
-    }
+    
   }
 }

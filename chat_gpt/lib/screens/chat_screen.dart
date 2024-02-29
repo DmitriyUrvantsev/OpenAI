@@ -14,7 +14,7 @@ class ChatScreen extends StatelessWidget {
     final provider = Provider.of<ChatProvider>(context);
 //Автоскрол при достижении низа экрана Юзером или Ботом
     Timer(const Duration(milliseconds: 200), () => provider.scrollListToEND());
-//Автоскрол   
+//Автоскрол
     return Scaffold(
 //
 //
@@ -41,9 +41,9 @@ class ChatScreen extends StatelessWidget {
                   controller: provider.listScrollController,
                   itemCount: provider.chatList.length,
                   itemBuilder: (context, index) {
-                    return 
-                    //Item-----
-                    ChatWidget(
+                    return
+                        //Item-----
+                        ChatWidget(
                       message: provider.chatList[index].message,
                       chatIndex: provider.chatList[index].chatIndex,
                       shouldAnimate: provider.chatList.length - 1 == index,

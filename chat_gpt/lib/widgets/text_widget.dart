@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Виджет для стиля текста=======================================================
 class TextWidget extends StatelessWidget {
   const TextWidget(
       {Key? key,

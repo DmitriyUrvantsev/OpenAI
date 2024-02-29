@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../constants/api_consts.dart';
-import '../models/chat_model.dart';
+import '../data/chat_model.dart';
 
 class ApiService {
 // Отправка сообщения используя ChatGPT API===================================
@@ -52,6 +52,4 @@ class ApiService {
       rethrow;
     }
   }
-
-
 }
