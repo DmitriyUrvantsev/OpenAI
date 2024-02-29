@@ -1,8 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/constants.dart';
+import '../providers/chats_provider.dart';
+import '../providers/models_provider.dart';
 import '../services/assets_manager.dart';
 import 'text_widget.dart';
 
@@ -18,6 +21,8 @@ class ChatWidget extends StatelessWidget {
   final bool shouldAnimate;
   @override
   Widget build(BuildContext context) {
+      final modelsProvider = Provider.of<ModelsProvider>(context);
+    final chatProvider = Provider.of<ChatProvider>(context);
     return Column(
       children: [
         Material(
@@ -48,7 +53,9 @@ class ChatWidget extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16),
-                              child: AnimatedTextKit(
+                              child: 
+                              
+                              AnimatedTextKit(
                                   isRepeatingAnimation: false,
                                   repeatForever: false,
                                   displayFullTextOnTap: true,

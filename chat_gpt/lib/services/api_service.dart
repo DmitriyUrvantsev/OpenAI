@@ -29,7 +29,7 @@ class ApiService {
         // log("temp ${value["id"]}");
       }
       List<ModelsModel> result = ModelsModel.modelsFromSnapshot(temp);
-      print(result);
+
       return result;
     } catch (error) {
       log("error $error");

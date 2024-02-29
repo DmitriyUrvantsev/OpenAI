@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -46,24 +47,26 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
+Timer(Duration(milliseconds: 200), () => scrollListToEND());
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,       
+        elevation: 2,
         title: const Center(
             child: Text(
           "ChatGPT",
           style: TextStyle(color: Colors.green),
         )),
-         ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Flexible(
               child: ListView.builder(
                   controller: _listScrollController,
-                  
                   itemCount: chatProvider.getChatList.length, //chatList.length,
                   itemBuilder: (context, index) {
+                  
+
                     return ChatWidget(
                       msg: chatProvider
                           .getChatList[index].msg, // chatList[index].msg,
@@ -127,12 +130,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //!============================================================================
   void scrollListToEND() {
+   // print(_listScrollController.position);
     _listScrollController.animateTo(
         _listScrollController.position.maxScrollExtent,
-        duration: const Duration(microseconds: 2),//!===
-        curve: Curves.easeOut
-        
-        );
+        duration: const Duration(milliseconds: 500), //!===
+        curve: Curves.easeOut);
   }
 
   Future<void> sendMessageFCT(

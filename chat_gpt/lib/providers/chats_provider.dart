@@ -27,6 +27,7 @@ class ChatProvider with ChangeNotifier {
         modelId: chosenModelId,
       ));
     }
+  
     notifyListeners();
   }
 }
