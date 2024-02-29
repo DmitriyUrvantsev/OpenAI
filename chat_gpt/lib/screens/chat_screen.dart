@@ -48,31 +48,20 @@ class _ChatScreenState extends State<ChatScreen> {
     final chatProvider = Provider.of<ChatProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        // leading: Image.asset(
-        //   AssetsManager.openaiLogo,
-        //   fit: BoxFit.cover,
-        // ),
+        elevation: 2,       
         title: const Center(
             child: Text(
           "ChatGPT",
           style: TextStyle(color: Colors.green),
         )),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () async {
-        //       await Services.showModalSheet(context: context);
-        //     },
-        //     icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-        //   ),
-        // ],
-      ),
+         ),
       body: SafeArea(
         child: Column(
           children: [
             Flexible(
               child: ListView.builder(
                   controller: _listScrollController,
+                  
                   itemCount: chatProvider.getChatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
@@ -94,6 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
             const SizedBox(
               height: 15,
             ),
+// ======================TextFeild виджет=======================================
             Material(
               color: cardColor,
               child: Padding(
@@ -135,11 +125,14 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+//!============================================================================
   void scrollListToEND() {
     _listScrollController.animateTo(
         _listScrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeOut);
+        duration: const Duration(microseconds: 2),//!===
+        curve: Curves.easeOut
+        
+        );
   }
 
   Future<void> sendMessageFCT(
