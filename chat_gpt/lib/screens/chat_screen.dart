@@ -28,7 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
   late FocusNode focusNode;
   @override
   void initState() {
-   _listScrollController = ScrollController();
+    _listScrollController = ScrollController();
     textEditingController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
@@ -36,19 +36,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void didChangeDependencies() {
-        super.didChangeDependencies();
-     final chatProvider = Provider.of<ChatProvider>(context);
-     if(chatProvider.listScrollController == null){
+    super.didChangeDependencies();
+    final chatProvider = Provider.of<ChatProvider>(context);
+    if (chatProvider.listScrollController == null) {
       chatProvider.listScrollController = _listScrollController;
       print(chatProvider.listScrollController);
-      }
-    
-    
+    }
   }
 
   @override
   void dispose() {
-     _listScrollController.dispose();
+    _listScrollController.dispose();
     textEditingController.dispose();
     focusNode.dispose();
     super.dispose();
@@ -68,6 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
           "ChatGPT",
           style: TextStyle(color: Colors.green),
         )),
+        shadowColor: Colors.black,
       ),
       body: SafeArea(
         child: Column(
@@ -90,9 +89,10 @@ class _ChatScreenState extends State<ChatScreen> {
             if (_isTyping) ...[
               const SpinKitThreeBounce(
                 color: Colors.white,
-                size: 18,
+                size: 16,
               ),
-            ],
+            ] else
+              const SizedBox(height: 16),
             const SizedBox(
               height: 15,
             ),

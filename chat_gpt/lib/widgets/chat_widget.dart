@@ -21,7 +21,7 @@ class ChatWidget extends StatelessWidget {
   final bool shouldAnimate;
   @override
   Widget build(BuildContext context) {
-      final modelsProvider = Provider.of<ModelsProvider>(context);
+      //final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
     return Column(
       children: [
@@ -44,28 +44,24 @@ class ChatWidget extends StatelessWidget {
                 ),
                 Expanded(
                   child: chatIndex == 0
-                      ? TextWidget(
+                      ?
+                       TextWidget(
                           label: msg,
                         )
                       : shouldAnimate
-                          ? DefaultTextStyle(
-                              style: const TextStyle(
+                          ? AnimatedTextKit(
+                              isRepeatingAnimation: false,
+                              repeatForever: false,
+                              displayFullTextOnTap: true,
+                              totalRepeatCount: 1,
+                              animatedTexts: [
+                                TyperAnimatedText(
+                                  msg.trim(), textStyle:  const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 16),
-                              child: 
-                              
-                              AnimatedTextKit(
-                                  isRepeatingAnimation: false,
-                                  repeatForever: false,
-                                  displayFullTextOnTap: true,
-                                  totalRepeatCount: 1,
-                                  animatedTexts: [
-                                    TyperAnimatedText(
-                                      msg.trim(),
-                                    ),
-                                  ]),
-                            )
+                                  fontSize: 16), 
+                                ),
+                              ])
                           : Text(
                               msg.trim(),
                               style: const TextStyle(
