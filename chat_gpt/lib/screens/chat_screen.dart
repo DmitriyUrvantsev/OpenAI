@@ -20,34 +20,34 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  bool _isTyping = false;
-
-  late TextEditingController textEditingController;
+  late TextEditingController _textEditingController;
   late ScrollController _listScrollController;
-  late FocusNode focusNode;
+  late FocusNode _focusNode;
   @override
   void initState() {
     _listScrollController = ScrollController();
-    textEditingController = TextEditingController();
-    focusNode = FocusNode();
+    _textEditingController = TextEditingController();
+    _focusNode = FocusNode();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final chatProvider = Provider.of<ChatProvider>(context);
-    if (chatProvider.listScrollController == null) {
-      chatProvider.listScrollController = _listScrollController;
-      print(chatProvider.listScrollController);
+    final provider = Provider.of<ChatProvider>(context);
+    if (provider.listScrollController == null) {
+      provider.listScrollController = _listScrollController;
+      provider.textEditingController = _textEditingController;
+      provider.focusNode = _focusNode;
+     
     }
   }
 
   @override
   void dispose() {
     _listScrollController.dispose();
-    textEditingController.dispose();
-    focusNode.dispose();
+    _textEditingController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -55,8 +55,8 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     //final modelsProvider = Provider.of<ModelsProvider>(context);
-    final chatProvider = Provider.of<ChatProvider>(context);
-    Timer(Duration(milliseconds: 200), () => chatProvider.scrollListToEND());
+    final provider = Provider.of<ChatProvider>(context);
+    Timer(Duration(milliseconds: 200), () => provider.scrollListToEND());
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
@@ -73,18 +73,18 @@ class _ChatScreenState extends State<ChatScreen> {
             Flexible(
               child: ListView.builder(
                   controller: _listScrollController,
-                  itemCount: chatProvider.chatList.length, //chatList.length,
+                  itemCount: provider.chatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
-                      message: chatProvider
+                      message: provider
                           .chatList[index].message, // chatList[index].msg,
-                      chatIndex: chatProvider.chatList[index]
+                      chatIndex: provider.chatList[index]
                           .chatIndex, //chatList[index].chatIndex,
-                      shouldAnimate: chatProvider.chatList.length - 1 == index,
+                      shouldAnimate: provider.chatList.length - 1 == index,
                     );
                   }),
             ),
-            if (_isTyping) ...[
+            if (provider.isTyping) ...[
               const SpinKitThreeBounce(
                 color: Colors.white,
                 size: 16,
@@ -103,11 +103,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     Expanded(
                       child: TextField(
-                        focusNode: focusNode,
+                        focusNode: _focusNode,
                         style: const TextStyle(color: Colors.white),
-                        controller: textEditingController,
+                        controller: _textEditingController,
                         onSubmitted: (value) async {
-                          await sendMessage(chatProvider);
+                          await provider.sendMessage(provider, context);
                         },
                         decoration: const InputDecoration.collapsed(
                             hintText: "Чем я могу помочь тебе?",
@@ -116,7 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     IconButton(
                         onPressed: () async {
-                          await sendMessage(chatProvider);
+                          await provider.sendMessage(provider, context);
                         },
                         icon: const Icon(
                           Icons.send,
@@ -134,42 +134,42 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //!============================================================================
 
-  Future<void> sendMessage(ChatProvider chatProvider) async {
-    if (textEditingController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: TextWidget(
-            label: "Задайте вопрос",
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-    try {
-      String message = textEditingController.text;
-      setState(() {
-        _isTyping = true;
-        chatProvider.addUsersMessage(msg: message);
-        textEditingController.clear();
-        focusNode.unfocus();
-      });
-      await chatProvider.sendMessageAndGetAnswers(
-          message: message, currentModelId: currentModel);
+  // Future<void> sendMessage(ChatProvider chatProvider) async {
+  //   if (textEditingController.text.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: TextWidget(
+  //           label: "Задайте вопрос",
+  //         ),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //     return;
+  //   }
+  //   try {
+  //     String message = textEditingController.text;
+  //     setState(() {
+  //       _isTyping = true;
+  //       chatProvider.addUsersMessage(msg: message);
+  //       textEditingController.clear();
+  //       focusNode.unfocus();
+  //     });
+  //     await chatProvider.sendMessageAndGetAnswers(
+  //         message: message, currentModelId: currentModel);
 
-      setState(() {});
-    } catch (error) {
-      log("error $error");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: TextWidget(
-          label: error.toString(),
-        ),
-        backgroundColor: Colors.red,
-      ));
-    } finally {
-      setState(() {
-        _isTyping = false;
-      });
-    }
-  }
+  //     setState(() {});
+  //   } catch (error) {
+  //     log("error $error");
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: TextWidget(
+  //         label: error.toString(),
+  //       ),
+  //       backgroundColor: Colors.red,
+  //     ));
+  //   } finally {
+  //     setState(() {
+  //       _isTyping = false;
+  //     });
+  //   }
+  // }
 }
