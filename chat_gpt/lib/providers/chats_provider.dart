@@ -4,6 +4,7 @@ import '../models/chat_model.dart';
 import '../services/api_service.dart';
 
 class ChatProvider with ChangeNotifier {
+  ScrollController? listScrollController;
   List<ChatModel> chatList = [];
   List<ChatModel> get getChatList {
     return chatList;
@@ -29,5 +30,16 @@ class ChatProvider with ChangeNotifier {
     }
   
     notifyListeners();
+  }
+
+  void scrollListToEND() {
+   if (listScrollController == null) return;
+   if(listScrollController != null){
+    listScrollController!.animateTo(
+        listScrollController!.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 500), //!===
+        curve: Curves.easeOut);
+    notifyListeners();    
+  }
   }
 }

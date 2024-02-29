@@ -28,15 +28,27 @@ class _ChatScreenState extends State<ChatScreen> {
   late FocusNode focusNode;
   @override
   void initState() {
-    _listScrollController = ScrollController();
+   _listScrollController = ScrollController();
     textEditingController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+        super.didChangeDependencies();
+     final chatProvider = Provider.of<ChatProvider>(context);
+     if(chatProvider.listScrollController == null){
+      chatProvider.listScrollController = _listScrollController;
+      print(chatProvider.listScrollController);
+      }
+    
+    
+  }
+
+  @override
   void dispose() {
-    _listScrollController.dispose();
+     _listScrollController.dispose();
     textEditingController.dispose();
     focusNode.dispose();
     super.dispose();
@@ -47,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final modelsProvider = Provider.of<ModelsProvider>(context);
     final chatProvider = Provider.of<ChatProvider>(context);
-Timer(Duration(milliseconds: 200), () => scrollListToEND());
+    Timer(Duration(milliseconds: 200), () => chatProvider.scrollListToEND());
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
@@ -65,8 +77,6 @@ Timer(Duration(milliseconds: 200), () => scrollListToEND());
                   controller: _listScrollController,
                   itemCount: chatProvider.getChatList.length, //chatList.length,
                   itemBuilder: (context, index) {
-                  
-
                     return ChatWidget(
                       msg: chatProvider
                           .getChatList[index].msg, // chatList[index].msg,
@@ -129,13 +139,6 @@ Timer(Duration(milliseconds: 200), () => scrollListToEND());
   }
 
 //!============================================================================
-  void scrollListToEND() {
-   // print(_listScrollController.position);
-    _listScrollController.animateTo(
-        _listScrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500), //!===
-        curve: Curves.easeOut);
-  }
 
   Future<void> sendMessageFCT(
       {required ModelsProvider modelsProvider,
@@ -188,7 +191,7 @@ Timer(Duration(milliseconds: 200), () => scrollListToEND());
       ));
     } finally {
       setState(() {
-        scrollListToEND();
+        // scrollListToEND();
         _isTyping = false;
       });
     }
