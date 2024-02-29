@@ -9,9 +9,9 @@ import '../services/api_service.dart';
 import '../widgets/text_widget.dart';
 
 class ChatProvider with ChangeNotifier {
-  ScrollController? listScrollController;
-  TextEditingController? textEditingController;
-  FocusNode? focusNode;
+  ScrollController listScrollController = ScrollController();
+  TextEditingController textEditingController = TextEditingController();
+  FocusNode focusNode = FocusNode();
 
   final List<ChatModel> _chatList = [];
   List<ChatModel> get chatList => _chatList;
@@ -20,8 +20,6 @@ class ChatProvider with ChangeNotifier {
   bool get isTyping => _isTyping;
 
   Future<void> sendMessage(ChatProvider chatProvider, context) async {
-    if (textEditingController == null) return;
-    if (textEditingController?.text.isEmpty ?? true) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: TextWidget(
@@ -30,17 +28,16 @@ class ChatProvider with ChangeNotifier {
           backgroundColor: Colors.red,
         ),
       );
-      return;
-    }
+      
+    
 
-    if (textEditingController != null) {
       try {
-        String message = textEditingController!.text;
+        String message = textEditingController.text;
 
         _isTyping = true;
         chatProvider.addUsersMessage(msg: message);
-        textEditingController?.clear();
-        focusNode?.unfocus();
+        textEditingController.clear();
+        focusNode.unfocus();
 
         await chatProvider.sendMessageAndGetAnswers(
             message: message, currentModelId: currentModel);
@@ -58,7 +55,7 @@ class ChatProvider with ChangeNotifier {
           _isTyping = false;
        notifyListeners();
       }
-    }
+    
   }
 
   void addUsersMessage({required String msg}) {

@@ -1,62 +1,18 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-
-import '../constants/api_consts.dart';
 import '../constants/constants.dart';
 import '../providers/chats_provider.dart';
-
 import '../widgets/chat_widget.dart';
-import '../widgets/text_widget.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  late TextEditingController _textEditingController;
-  late ScrollController _listScrollController;
-  late FocusNode _focusNode;
-  @override
-  void initState() {
-    _listScrollController = ScrollController();
-    _textEditingController = TextEditingController();
-    _focusNode = FocusNode();
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final provider = Provider.of<ChatProvider>(context);
-    if (provider.listScrollController == null) {
-      provider.listScrollController = _listScrollController;
-      provider.textEditingController = _textEditingController;
-      provider.focusNode = _focusNode;
-     
-    }
-  }
-
-  @override
-  void dispose() {
-    _listScrollController.dispose();
-    _textEditingController.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  // List<ChatModel> chatList = [];
-  @override
   Widget build(BuildContext context) {
-    //final modelsProvider = Provider.of<ModelsProvider>(context);
     final provider = Provider.of<ChatProvider>(context);
-    Timer(Duration(milliseconds: 200), () => provider.scrollListToEND());
+    Timer(const Duration(milliseconds: 200), () => provider.scrollListToEND());
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
@@ -72,7 +28,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Flexible(
               child: ListView.builder(
-                  controller: _listScrollController,
+                  controller: provider.listScrollController,
                   itemCount: provider.chatList.length, //chatList.length,
                   itemBuilder: (context, index) {
                     return ChatWidget(
@@ -103,9 +59,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     Expanded(
                       child: TextField(
-                        focusNode: _focusNode,
+                        focusNode: provider.focusNode,
                         style: const TextStyle(color: Colors.white),
-                        controller: _textEditingController,
+                        controller: provider.textEditingController,
                         onSubmitted: (value) async {
                           await provider.sendMessage(provider, context);
                         },
@@ -131,45 +87,4 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
-//!============================================================================
-
-  // Future<void> sendMessage(ChatProvider chatProvider) async {
-  //   if (textEditingController.text.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(
-  //         content: TextWidget(
-  //           label: "Задайте вопрос",
-  //         ),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //     return;
-  //   }
-  //   try {
-  //     String message = textEditingController.text;
-  //     setState(() {
-  //       _isTyping = true;
-  //       chatProvider.addUsersMessage(msg: message);
-  //       textEditingController.clear();
-  //       focusNode.unfocus();
-  //     });
-  //     await chatProvider.sendMessageAndGetAnswers(
-  //         message: message, currentModelId: currentModel);
-
-  //     setState(() {});
-  //   } catch (error) {
-  //     log("error $error");
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: TextWidget(
-  //         label: error.toString(),
-  //       ),
-  //       backgroundColor: Colors.red,
-  //     ));
-  //   } finally {
-  //     setState(() {
-  //       _isTyping = false;
-  //     });
-  //   }
-  // }
 }
