@@ -30,7 +30,7 @@ class ChatWidget extends StatelessWidget {
                 Image.asset(
                   chatIndex == 0
                       ? AssetsManager.userImage
-                      : AssetsManager.botImage,
+                      : AssetsManager.openaiLogo,
                   height: 30,
                   width: 30,
                 ),
@@ -69,10 +69,10 @@ class ChatWidget extends StatelessWidget {
                 ),
                 chatIndex == 0
                     ? const SizedBox.shrink()
-                    : Row(
+                    : const Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.thumb_up_alt_outlined,
                             color: Colors.white,

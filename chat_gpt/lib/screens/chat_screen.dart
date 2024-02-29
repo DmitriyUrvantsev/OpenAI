@@ -1,7 +1,5 @@
 import 'dart:developer';
 
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -51,19 +49,23 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AssetsManager.openaiLogo),
-        ),
-        title: const Text("ChatGPT"),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await Services.showModalSheet(context: context);
-            },
-            icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
-          ),
-        ],
+        // leading: Image.asset(
+        //   AssetsManager.openaiLogo,
+        //   fit: BoxFit.cover,
+        // ),
+        title: const Center(
+            child: Text(
+          "ChatGPT",
+          style: TextStyle(color: Colors.green),
+        )),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () async {
+        //       await Services.showModalSheet(context: context);
+        //     },
+        //     icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Column(
@@ -109,7 +111,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               chatProvider: chatProvider);
                         },
                         decoration: const InputDecoration.collapsed(
-                            hintText: "How can I help you",
+                            hintText: "Чем я могу помочь тебе?",
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),
                     ),

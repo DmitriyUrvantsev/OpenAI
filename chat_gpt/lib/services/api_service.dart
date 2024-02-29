@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-
 import 'package:http/http.dart' as http;
 
 import '../constants/api_consts.dart';
@@ -29,7 +28,9 @@ class ApiService {
         temp.add(value);
         // log("temp ${value["id"]}");
       }
-      return ModelsModel.modelsFromSnapshot(temp);
+      List<ModelsModel> result = ModelsModel.modelsFromSnapshot(temp);
+      print(result);
+      return result;
     } catch (error) {
       log("error $error");
       rethrow;
