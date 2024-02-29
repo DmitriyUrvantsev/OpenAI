@@ -77,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   itemBuilder: (context, index) {
                     return ChatWidget(
                       msg: chatProvider
-                          .getChatList[index].msg, // chatList[index].msg,
+                          .getChatList[index].message, // chatList[index].msg,
                       chatIndex: chatProvider.getChatList[index]
                           .chatIndex, //chatList[index].chatIndex,
                       shouldAnimate:
@@ -108,9 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: const TextStyle(color: Colors.white),
                         controller: textEditingController,
                         onSubmitted: (value) async {
-                          await sendMessageFCT(
-                              // modelsProvider: modelsProvider,
-                              chatProvider: chatProvider);
+                          await sendMessageFCT(chatProvider);
                         },
                         decoration: const InputDecoration.collapsed(
                             hintText: "Чем я могу помочь тебе?",
@@ -119,9 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     IconButton(
                         onPressed: () async {
-                          await sendMessageFCT(
-                              // modelsProvider: modelsProvider,
-                              chatProvider: chatProvider);
+                          await sendMessageFCT(chatProvider);
                         },
                         icon: const Icon(
                           Icons.send,
@@ -139,26 +135,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //!============================================================================
 
-  Future<void> sendMessageFCT(
-      {
-      //required ModelsProvider modelsProvider,
-      required ChatProvider chatProvider}) async {
-    if (_isTyping) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: TextWidget(
-            label: "You cant send multiple messages at a time",
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
+  Future<void> sendMessageFCT(ChatProvider chatProvider) async {
     if (textEditingController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: TextWidget(
-            label: "Please type a message",
+            label: "Задайте вопрос",
           ),
           backgroundColor: Colors.red,
         ),
@@ -169,12 +151,12 @@ class _ChatScreenState extends State<ChatScreen> {
       String message = textEditingController.text;
       setState(() {
         _isTyping = true;
-        chatProvider.addUserMessage(msg: message);
+        chatProvider.addUsersMessage(msg: message);
         textEditingController.clear();
         focusNode.unfocus();
       });
       await chatProvider.sendMessageAndGetAnswers(
-          message: message, chosenModelId: currentModel);
+          message: message, currentModelId: currentModel);
 
       setState(() {});
     } catch (error) {
@@ -187,7 +169,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ));
     } finally {
       setState(() {
-        // scrollListToEND();
         _isTyping = false;
       });
     }

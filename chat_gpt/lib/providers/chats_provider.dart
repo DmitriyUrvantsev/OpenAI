@@ -5,33 +5,27 @@ import '../services/api_service.dart';
 
 class ChatProvider with ChangeNotifier {
   ScrollController? listScrollController;
-  List<ChatModel> chatList = [];
-  List<ChatModel> get getChatList {
-    return chatList;
-  }
+  final List<ChatModel> _chatList = [];
+  List<ChatModel> get getChatList => _chatList;
+    
+  
 
-  void addUserMessage({required String msg}) {
-    chatList.add(ChatModel(msg: msg, chatIndex: 0));
+  void addUsersMessage({required String msg}) {
+    _chatList.add(ChatModel(message: msg, chatIndex: 0));
     notifyListeners();
   }
 
   Future<void> sendMessageAndGetAnswers(
-      {required String message, required String chosenModelId}) async {
-    if (chosenModelId.toLowerCase().startsWith("gpt")) {
-      chatList.addAll(await ApiService.sendMessageGPT(
-        message: message,
-        modelId: chosenModelId,
-      ));
-    } else {
-      chatList.addAll(await ApiService.sendMessage(
-        message: message,
-        modelId: chosenModelId,
-      ));
-    }
-
+      {required String message, required String currentModelId}) async {
+    _chatList.addAll(await ApiService.sendMessageGPT(
+      message: message,
+      modelId: currentModelId,
+    ));
     notifyListeners();
   }
 
+
+//=======автоскрол ListView при достижении низа экрана===================
   void scrollListToEND() {
     if (listScrollController == null) return;
     if (listScrollController != null) {
