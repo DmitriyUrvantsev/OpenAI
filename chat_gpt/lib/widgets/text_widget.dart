@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 //Виджет для стиля текста=======================================================
 class TextWidget extends StatelessWidget {
   const TextWidget(
-      {Key? key,
+      {super.key,
       required this.label,
       this.fontSize = 16,
       this.color,
-      this.fontWeight})
-      : super(key: key);
+      this.fontWeight});
 
   final String label;
   final double fontSize;
