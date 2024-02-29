@@ -12,8 +12,13 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ChatProvider>(context);
+//Автоскрол при достижении низа экрана Юзером или Ботом
     Timer(const Duration(milliseconds: 200), () => provider.scrollListToEND());
+//Автоскрол   
     return Scaffold(
+//
+//
+// ======================AppBar виджет=======================================
       appBar: AppBar(
         elevation: 2,
         title: const Center(
@@ -23,23 +28,29 @@ class ChatScreen extends StatelessWidget {
         )),
         shadowColor: Colors.black,
       ),
+
+//
+//
+// ======================Body виджет=======================================
       body: SafeArea(
         child: Column(
           children: [
             Flexible(
+              //ListView==========
               child: ListView.builder(
                   controller: provider.listScrollController,
-                  itemCount: provider.chatList.length, //chatList.length,
+                  itemCount: provider.chatList.length,
                   itemBuilder: (context, index) {
-                    return ChatWidget(
-                      message: provider
-                          .chatList[index].message, // chatList[index].msg,
-                      chatIndex: provider.chatList[index]
-                          .chatIndex, //chatList[index].chatIndex,
+                    return 
+                    //Item-----
+                    ChatWidget(
+                      message: provider.chatList[index].message,
+                      chatIndex: provider.chatList[index].chatIndex,
                       shouldAnimate: provider.chatList.length - 1 == index,
                     );
                   }),
             ),
+            //Индикатор==========
             if (provider.isTyping) ...[
               const SpinKitThreeBounce(
                 color: Colors.white,
@@ -50,6 +61,8 @@ class ChatScreen extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
+//
+//
 // ======================TextFeild виджет=======================================
             Material(
               color: cardColor,
@@ -66,7 +79,7 @@ class ChatScreen extends StatelessWidget {
                           await provider.sendMessage(provider, context);
                         },
                         decoration: const InputDecoration.collapsed(
-                            hintText: "Чем я могу помочь тебе?",
+                            hintText: "Чем я могу помочь?",
                             hintStyle: TextStyle(color: Colors.grey)),
                       ),
                     ),

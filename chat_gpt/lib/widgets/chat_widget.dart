@@ -63,7 +63,7 @@ class ChatWidget extends StatelessWidget {
                                   fontSize: 16),
                             ),
                 ),
-                // ===========типа лайк дизлайк
+                // ===========типа лайк дизлайк- убрал пока
                 // chatIndex == 0
                 //     ? const SizedBox.shrink()
                 //     : const Row(

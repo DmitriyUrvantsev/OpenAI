@@ -8,7 +8,7 @@ import '../constants/api_consts.dart';
 import '../models/chat_model.dart';
 
 class ApiService {
-  // Отправка сообщения используя ChatGPT API
+// Отправка сообщения используя ChatGPT API===================================
   static Future<List<ChatModel>> sendMessageGPT(
       {required String message, required String modelId}) async {
     try {

@@ -19,7 +19,10 @@ class ChatProvider with ChangeNotifier {
   bool _isTyping = false;
   bool get isTyping => _isTyping;
 
+
+//отправка сообщения============================================================
   Future<void> sendMessage(ChatProvider chatProvider, context) async {
+    if (textEditingController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: TextWidget(
@@ -28,34 +31,32 @@ class ChatProvider with ChangeNotifier {
           backgroundColor: Colors.red,
         ),
       );
-      
-    
+      return;
+    }
 
-      try {
-        String message = textEditingController.text;
+    try {
+      String message = textEditingController.text;
 
-        _isTyping = true;
-        chatProvider.addUsersMessage(msg: message);
-        textEditingController.clear();
-        focusNode.unfocus();
+      _isTyping = true;
+      chatProvider.addUsersMessage(msg: message);
+      textEditingController.clear();
+      focusNode.unfocus();
 
-        await chatProvider.sendMessageAndGetAnswers(
-            message: message, currentModelId: currentModel);
+      await chatProvider.sendMessageAndGetAnswers(
+          message: message, currentModelId: currentModel);
 
-        notifyListeners();
-      } catch (error) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: TextWidget(
-            label: error.toString(),
-          ),
-          backgroundColor: Colors.red,
-        ));
-      } finally {
-      
-          _isTyping = false;
-       notifyListeners();
-      }
-    
+      notifyListeners();
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: TextWidget(
+          label: error.toString(),
+        ),
+        backgroundColor: Colors.red,
+      ));
+    } finally {
+      _isTyping = false;
+      notifyListeners();
+    }
   }
 
   void addUsersMessage({required String msg}) {
